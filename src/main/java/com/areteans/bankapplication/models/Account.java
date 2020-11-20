@@ -13,7 +13,7 @@ public class Account {
     private String accountno;
     private String acctype;
 
-    public Account(Long balance, String accountno, String    accType) {
+    public Account(Long balance, String accountno, String accType) {
         this.balance= balance;
         this.setAccountno(accountno);
         this.setAcctype(accType);
