@@ -12,6 +12,7 @@ public class Account {
     private long balance;
     private String accountno;
     private String acctype;
+    private Long accid;
 
     public Account(Long balance, String accountno, String accType) {
         this.balance= balance;

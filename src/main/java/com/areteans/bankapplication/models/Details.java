@@ -11,4 +11,11 @@ public class Details {
     private String name;
     private String address;
     private Long contact;
+    private Long detailid;
+
+    public Details(String name, String address, Long contact) {
+        this.setName(name);
+        this.setAddress(address);
+        this.setContact(contact);
+    }
 }

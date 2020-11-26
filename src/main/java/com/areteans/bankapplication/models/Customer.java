@@ -10,13 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
-    private Details detail;
+    private Details details;
     private Account account;
     private Long cid;
-    public Customer(String name, String address, Long contact, String accountno,int time,int principle, String accType) {
-        this.detail= new Details(name, address, contact);
+    public Customer(String name, String address, Long contact, String accountno,Integer duration,Integer principle, String accType) {
+        this.details= new Details(name, address, contact);
         if(AccType.FIXEDDEPOSIT.toString().equals(accType)) {
-            this.account= new FixedDp(0L,accountno,accType,time,principle);
+            this.account= new Fixeddeposit(0L,accountno,duration,principle,accType);
         }
         else if(AccType.SAVINGS.toString().equals(accType)) {
             this.account= new Account(0L,accountno,accType);
