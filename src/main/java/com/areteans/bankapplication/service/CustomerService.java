@@ -6,6 +6,9 @@ import com.areteans.bankapplication.repository.CustomerRepository;
 import com.areteans.bankapplication.repository.DetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 
 @Service
@@ -16,10 +19,30 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer create(Customer customer) {
-       Details details= detailsRepository.create(customer.getDetails());
+        Details details= detailsRepository.create(customer.getDetails());
         Account account= accountRepository.create(customer.getAccount());
         customerRepository.create(customer, details.getDetailid(),account.getAccid());
         return customer;
+    }
+
+    @Transactional
+    public Map<String, Object> create(Map<String,Object> customer) {
+        Long detailid= detailsRepository.create( (Map)customer.get("details"));
+        Long accid = accountRepository.createFD((Map)customer.get("account"));
+        Long cid = customerRepository.create(detailid,accid);
+        customer.put("cid",cid);
+        return  customer;
+    }
+
+    public Long getbalance(Long accid) {
+        return accountRepository.getbalance(accid);
+    }
+
+    public Long deposit(Long amount, Long accid) {
+        Long balance = accountRepository.getbalance(accid);
+        balance+= amount;
+        accountRepository.update(balance, accid);
+        return accountRepository.getbalance(accid);
     }
 }
 
