@@ -20,8 +20,8 @@ public class CustomerController {
     }
 
     @PostMapping(path ="fixeddeposit", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> create(@RequestBody Map<String,Object> customer) {
-        return customerService.create(customer);
+    public Map<String, Object> createFD(@RequestBody Map<String,Object> customer) {
+        return customerService.createFD(customer);
     }
 
     @PostMapping(path = "balance" , consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -32,8 +32,14 @@ public class CustomerController {
 
     @PostMapping(path = "deposit" , consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long deposit(@RequestBody Map<String, Object> map) {
-        return customerService.deposit(Long.valueOf((String)map.get("amount")) ,Long.valueOf((String)map.get("accid")));
+        return customerService.deposit(Long.valueOf((String)map.get("amount")) ,Long.valueOf((String)map.get("accid")), (String)map.get("date"));
     }
+
+    @PostMapping(path = "withdraw" , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Long withdraw(@RequestBody Map<String, Object> map) {
+        return customerService.withdraw(Long.valueOf((String)map.get("amount")) ,Long.valueOf((String)map.get("accid")), (String)map.get("date"));
+    }
+
 //
 //    @PutMapping(path= "update", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    public Long update(@RequestBody Map<String, Object> map ) {

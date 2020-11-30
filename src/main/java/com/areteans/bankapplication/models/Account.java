@@ -16,8 +16,7 @@ public class Account {
 
     public Account(Long balance, String accountno, String accType) {
         this.balance= balance;
-        this.setAccountno(accountno);
-        this.setAcctype(accType);
+        this.accountno= accountno;
+        this.acctype= accType;
     }
-
 }

@@ -4,6 +4,7 @@ import com.areteans.bankapplication.models.*;
 import com.areteans.bankapplication.repository.AccountRepository;
 import com.areteans.bankapplication.repository.CustomerRepository;
 import com.areteans.bankapplication.repository.DetailsRepository;
+import com.areteans.bankapplication.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,12 @@ public class CustomerService {
     private final DetailsRepository detailsRepository;
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    private final TransactionRepository transactionRepository;
+
+    public Float interest(Float rate, Long principle, Integer duration) {
+        Float interest = (principle*rate*duration)/100;
+        return interest;
+    }
 
     public Customer create(Customer customer) {
         Details details= detailsRepository.create(customer.getDetails());
@@ -26,11 +33,15 @@ public class CustomerService {
     }
 
     @Transactional
-    public Map<String, Object> create(Map<String,Object> customer) {
-        Long detailid= detailsRepository.create( (Map)customer.get("details"));
-        Long accid = accountRepository.createFD((Map)customer.get("account"));
+    public Map<String, Object> createFD(Map<String,Object> customer) {
+        Long detailid = detailsRepository.create( (Map)customer.get("details"));
+        Float interest = interest(7.0f, Long.valueOf((String)((Map<?, ?>) customer.get("account")).get("principle")), (Integer)((Map<?, ?>) customer.get("account")).get("duration"));
+        Long accid = accountRepository.createFD((Map)customer.get("account"), interest);
         Long cid = customerRepository.create(detailid,accid);
         customer.put("cid",cid);
+        Map<String,Object> map = (Map<String, Object>) customer.get("account");
+        map.put("interest", interest);
+        customer.put("account",map);
         return  customer;
     }
 
@@ -38,10 +49,21 @@ public class CustomerService {
         return accountRepository.getbalance(accid);
     }
 
-    public Long deposit(Long amount, Long accid) {
+    public Long deposit(Long amount, Long accid, String date) {
         Long balance = accountRepository.getbalance(accid);
         balance+= amount;
         accountRepository.update(balance, accid);
+        Transaction transaction = new Transaction(amount,date,"Deposit");
+        transactionRepository.save(transaction,accid);
+        return accountRepository.getbalance(accid);
+    }
+
+    public Long withdraw(Long amount, Long accid, String date) {
+        Long balance = accountRepository.getbalance(accid);
+        balance-= amount;
+        accountRepository.update(balance, accid);
+        Transaction transaction = new Transaction(amount,date,"Withdrawal");
+        transactionRepository.save(transaction,accid);
         return accountRepository.getbalance(accid);
     }
 }
