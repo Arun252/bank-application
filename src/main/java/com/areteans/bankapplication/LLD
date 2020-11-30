@@ -1,0 +1,37 @@
+
+Banking Application:
+
+1) Create Endpoint (Creates a customer and saves it in the Customer database table) :
+    1. Create method in service class is used which returns a customer object:
+        1. Create method from details repository is used:
+            1. Details model class is used which is similar in structure to the details database table.
+        2. Create method from accounts repository is used:
+            1. Accounts model class is used which is similar in structure to the accounts database table.
+        3.  Create method from customer repository is used:
+            1. Customer model class is used which is similar in structure to the customer database table.
+
+2) Fixeddeposit Endpoint (Creates a fixeddeposit account and saves it in the fixeddeposit database table) :
+    1. CreateFD method in service class is used which returns customer object:
+        1. CreateFD method in details repository class is used:
+            1. Details model class is used.
+        2. CreateFD method in account repository class is used:
+            1. Accounts model class and fixeddeposit model class is used.
+        3. Create method in customer repository class is used:
+            1. Customer model class is used.
+        4. Interest method is used which takes in parameters from user to account map in customer input.
+
+3) Balance Endpoint (Returns the balance of the user) :
+    1. Getbalance method in the service class is used which returns a long value i.e. balance:
+        1. Getbalance method in the account repository is used which gets data from the database.
+
+4) Deposit endpoint (Returns the updated balance of the user) :
+    1. Deposit method in the service class is used which returns a long value i.e. balance:
+        1. Getbalance method from the account repository is used to get the current balance.
+        2. Updatebalance method from the account repository is used to update deposited balance.
+        3. Save method from the transaction repository is used to save transaction details.
+
+5) Withdraw endpoint (Returns the update balance of the user) :
+    1. Withdraw method in the service class is used which returns a long value.
+        1. Getbalance method from the account repository is used to get the current balance.
+        2. Updatebalance method from the account repository is used to update deposited balance.
+        3. Save method from the transaction repository is used to save transaction details.

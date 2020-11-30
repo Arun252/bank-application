@@ -21,7 +21,7 @@ public class DetailsRepository {
         return details;
     }
 
-    public Long create(Map<String,Object> details) {
+    public Long createFD(Map<String,Object> details) {
         Map<String, Object> map1 = jdbcTemplate.queryForMap("insert into details(name,address,contact) values(?,?,?) RETURNING detailid",
                 ((String)details.get("name")),
                 (String)details.get("address"),

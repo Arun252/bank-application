@@ -34,7 +34,7 @@ public class CustomerService {
 
     @Transactional
     public Map<String, Object> createFD(Map<String,Object> customer) {
-        Long detailid = detailsRepository.create( (Map)customer.get("details"));
+        Long detailid = detailsRepository.createFD( (Map)customer.get("details"));
         Float interest = interest(7.0f, Long.valueOf((String)((Map<?, ?>) customer.get("account")).get("principle")), (Integer)((Map<?, ?>) customer.get("account")).get("duration"));
         Long accid = accountRepository.createFD((Map)customer.get("account"), interest);
         Long cid = customerRepository.create(detailid,accid);
